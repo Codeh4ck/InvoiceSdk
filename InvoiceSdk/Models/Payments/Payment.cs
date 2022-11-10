@@ -7,7 +7,6 @@
         public PaymentMethod Method { get; set; }
         public PaymentStatus Status { get; set; }
         public DateTime PaidAt { get; set; }
-        public DateTime ProcessedAt { get; set; }
 
         public int CompareTo(Payment other)
         {
@@ -28,9 +27,6 @@
 
             int paidAtCmp = PaidAt.CompareTo(other.PaidAt);
             if (paidAtCmp != 0) return paidAtCmp;
-
-            int processedAtCmp = ProcessedAt.CompareTo(other.ProcessedAt);
-            if (processedAtCmp != 0) return processedAtCmp;
 
             return 0;
         }
