@@ -2,7 +2,7 @@
 {
     public class LogoConfiguration
     {
-        public float LogoHeightCm { get; set; }
-        public string LogoSourceFile { get; set; }
+        public float LogoHeightCm = 50f;
+        public string LogoSourceFile = string.Empty;
     }
 }

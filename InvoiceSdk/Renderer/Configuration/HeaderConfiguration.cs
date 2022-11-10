@@ -2,6 +2,6 @@
 {
     public class HeaderConfiguration
     {
-        public LogoConfiguration LogoConfiguration { get; set; }
+        public LogoConfiguration LogoConfiguration = new();
     }
 }
