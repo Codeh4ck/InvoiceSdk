@@ -1,4 +1,5 @@
-﻿using InvoiceSdk.Renderer.Internal;
+﻿using System.Drawing;
+using InvoiceSdk.Renderer.Internal;
 using InvoiceSdk.Renderer.Configuration;
 
 namespace InvoiceSdk.Fluent
@@ -36,6 +37,30 @@ namespace InvoiceSdk.Fluent
         public PaymentTableConfigurationDefinition ThatDoesNotShowAlertWithoutItems()
         {
             _invoiceConfiguration.PaymentTableConfiguration.DisplayWithoutItems = false;
+            return this;
+        }
+
+        public PaymentTableConfigurationDefinition WithHeader(string headerText)
+        {
+            _invoiceConfiguration.PaymentTableConfiguration.TableHeaderText = headerText;
+            return this;
+        }
+
+        public PaymentTableConfigurationDefinition WithHeaderColor(Color color)
+        {
+            _invoiceConfiguration.PaymentTableConfiguration.TableHeaderColor = color;
+            return this;
+        }
+
+        public PaymentTableConfigurationDefinition WithHeaderColor(string hexColor)
+        {
+            _invoiceConfiguration.PaymentTableConfiguration.TableHeaderColor = ColorTranslator.FromHtml(hexColor);
+            return this;
+        }
+
+        public PaymentTableConfigurationDefinition WithHeaderColor(int r, int g, int b)
+        {
+            _invoiceConfiguration.PaymentTableConfiguration.TableHeaderColor = Color.FromArgb(r, g, g);
             return this;
         }
     }

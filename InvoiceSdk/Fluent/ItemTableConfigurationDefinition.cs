@@ -1,5 +1,6 @@
-﻿using InvoiceSdk.Renderer.Configuration;
+﻿using System.Drawing;
 using InvoiceSdk.Renderer.Internal;
+using InvoiceSdk.Renderer.Configuration;
 
 namespace InvoiceSdk.Fluent
 {
@@ -49,6 +50,30 @@ namespace InvoiceSdk.Fluent
         public ItemTableConfigurationDefinition ThatDoesNotDisplayItemDescriptions()
         {
             _invoiceConfiguration.ItemTableConfiguration.DisplayItemDescriptions = false;
+            return this;
+        }
+
+        public ItemTableConfigurationDefinition WithHeader(string headerText)
+        {
+            _invoiceConfiguration.ItemTableConfiguration.TableHeaderText = headerText;
+            return this;
+        }
+
+        public ItemTableConfigurationDefinition WithHeaderColor(Color color)
+        {
+            _invoiceConfiguration.ItemTableConfiguration.TableHeaderColor = color;
+            return this;
+        }
+
+        public ItemTableConfigurationDefinition WithHeaderColor(string hexColor)
+        {
+            _invoiceConfiguration.ItemTableConfiguration.TableHeaderColor = ColorTranslator.FromHtml(hexColor);
+            return this;
+        }
+
+        public ItemTableConfigurationDefinition WithHeaderColor(int r, int g, int b)
+        {
+            _invoiceConfiguration.ItemTableConfiguration.TableHeaderColor = Color.FromArgb(r, g, g);
             return this;
         }
     }
