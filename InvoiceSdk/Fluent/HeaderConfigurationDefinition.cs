@@ -1,4 +1,4 @@
-﻿using InvoiceSdk.Renderer.Internal;
+﻿using System.Drawing;
 using InvoiceSdk.Renderer.Configuration;
 
 namespace InvoiceSdk.Fluent
@@ -12,9 +12,21 @@ namespace InvoiceSdk.Fluent
             _invoiceConfiguration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
-        public HeaderConfigurationDefinition WithGlobalFont(Font font)
+        public HeaderConfigurationDefinition WithTextColor(Color color)
         {
-            _invoiceConfiguration.GlobalFont = font;
+            _invoiceConfiguration.HeaderConfiguration.TextColor = color;
+            return this;
+        }
+
+        public HeaderConfigurationDefinition WithTextColor(string hexColor)
+        {
+            _invoiceConfiguration.HeaderConfiguration.TextColor = ColorTranslator.FromHtml(hexColor);
+            return this;
+        }
+
+        public HeaderConfigurationDefinition WithTextColor(int r, int g, int b)
+        {
+            _invoiceConfiguration.HeaderConfiguration.TextColor = Color.FromArgb(r, g, g);
             return this;
         }
     }
