@@ -2,13 +2,13 @@
 
 namespace InvoiceSdk.Fluent
 {
-    public class AddressConfigurationDefinition
+    public class AddressConfigurationDefinition : ConfigurationDefinitionBase
     {
         private readonly InvoiceConfiguration _invoiceConfiguration;
 
-        public AddressConfigurationDefinition(InvoiceConfiguration invoiceConfiguration)
+        public AddressConfigurationDefinition(InvoiceConfiguration configuration) : base(configuration)
         {
-            _invoiceConfiguration = invoiceConfiguration ?? throw new ArgumentNullException(nameof(invoiceConfiguration));
+            _invoiceConfiguration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         public AddressConfigurationDefinition WithHeaders(string sellerHeader, string customerHeader)
@@ -22,16 +22,16 @@ namespace InvoiceSdk.Fluent
             return this;
         }
 
-        public ItemTableConfigurationDefinition ThatShowsLabels()
+        public AddressConfigurationDefinition ThatShowsLabels()
         {
             _invoiceConfiguration.AddressConfiguration.ShowLabels = true;
-            return new ItemTableConfigurationDefinition(_invoiceConfiguration);
+            return this;
         }
 
-        public ItemTableConfigurationDefinition ThatDoesNotShowLabels()
+        public AddressConfigurationDefinition ThatDoesNotShowLabels()
         {
             _invoiceConfiguration.AddressConfiguration.ShowLabels = false;
-            return new ItemTableConfigurationDefinition(_invoiceConfiguration);
+            return this;
         }
     }
 }

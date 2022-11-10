@@ -3,19 +3,19 @@ using InvoiceSdk.Renderer.Configuration;
 
 namespace InvoiceSdk.Fluent
 {
-    public class HeaderConfigurationDefinition
+    public class HeaderConfigurationDefinition : ConfigurationDefinitionBase
     {
         private readonly InvoiceConfiguration _invoiceConfiguration;
 
-        public HeaderConfigurationDefinition(InvoiceConfiguration invoiceConfiguration)
+        public HeaderConfigurationDefinition(InvoiceConfiguration configuration) : base(configuration)
         {
-            _invoiceConfiguration = invoiceConfiguration ?? throw new ArgumentNullException(nameof(invoiceConfiguration));
+            _invoiceConfiguration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
-        public LogoConfigurationDefinition WithGlobalFont(Font font)
+        public HeaderConfigurationDefinition WithGlobalFont(Font font)
         {
             _invoiceConfiguration.GlobalFont = font;
-            return new LogoConfigurationDefinition(_invoiceConfiguration);
+            return this;
         }
     }
 }

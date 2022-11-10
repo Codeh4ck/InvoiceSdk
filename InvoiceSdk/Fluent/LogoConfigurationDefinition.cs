@@ -2,13 +2,13 @@
 
 namespace InvoiceSdk.Fluent
 {
-    public class LogoConfigurationDefinition
+    public class LogoConfigurationDefinition : ConfigurationDefinitionBase
     {
         private readonly InvoiceConfiguration _invoiceConfiguration;
 
-        public LogoConfigurationDefinition(InvoiceConfiguration invoiceConfiguration)
+        public LogoConfigurationDefinition(InvoiceConfiguration configuration) : base(configuration)
         {
-            _invoiceConfiguration = invoiceConfiguration ?? throw new ArgumentNullException(nameof(invoiceConfiguration));
+            _invoiceConfiguration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             }
 
         public LogoConfigurationDefinition WithLogoHeightCm(float logoHeight)
