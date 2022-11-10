@@ -1,4 +1,5 @@
-﻿using InvoiceSdk.Models;
+﻿using InvoiceSdk.Helpers;
+using InvoiceSdk.Models;
 using InvoiceSdk.Renderer.Configuration;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
@@ -25,7 +26,7 @@ namespace InvoiceSdk.Renderer.Components
                 {
                     column
                         .Item().Text($"Invoice #{_invoice.Number}")
-                        .FontSize(20).SemiBold().FontColor(Colors.Blue.Medium);
+                        .FontSize(20).SemiBold().FontColor(_headerConfiguration.TextColor.ToHexString());
 
                     column.Item().Text(text =>
                     {

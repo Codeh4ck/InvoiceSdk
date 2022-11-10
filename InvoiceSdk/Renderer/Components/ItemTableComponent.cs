@@ -46,20 +46,18 @@ namespace InvoiceSdk.Renderer.Components
                     columns.RelativeColumn();
                     columns.RelativeColumn();
                     columns.RelativeColumn();
-                    columns.RelativeColumn();
                 });
 
                 table.Header(header =>
                 {
                     header.Cell().Text("#");
                     header.Cell().Text("Product").Style(headerStyle);
-                    header.Cell().AlignRight().Text("Product No.").Style(headerStyle);
                     header.Cell().AlignRight().Text("Unit Price").Style(headerStyle);
-                    header.Cell().AlignRight().Text("Quantity").Style(headerStyle);
+                    header.Cell().AlignRight().Text("Units").Style(headerStyle);
                     header.Cell().AlignRight().Text("VAT").Style(headerStyle);
                     header.Cell().AlignRight().Text("Total").Style(headerStyle);
 
-                    header.Cell().ColumnSpan(7).PaddingTop(5).BorderBottom(1).BorderColor(Colors.Black);
+                    header.Cell().ColumnSpan(6).PaddingTop(5).BorderBottom(1).BorderColor(Colors.Black);
                 });
 
                 foreach (InvoiceItem item in _invoiceItems)
@@ -80,7 +78,6 @@ namespace InvoiceSdk.Renderer.Components
                         }
                     }
 
-                    table.Cell().Element(CellStyle).AlignRight().Text($"{item.Id}");
                     table.Cell().Element(CellStyle).AlignRight().Text($"{item.UnitPriceWithoutVat}{_invoiceCurrencySymbol.GetSymbol()}");
                     table.Cell().Element(CellStyle).AlignRight().Text(item.Quantity);
                     table.Cell().Element(CellStyle).AlignRight().Text($"{item.VatPercentage}%");

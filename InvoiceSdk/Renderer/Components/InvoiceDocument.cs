@@ -26,8 +26,10 @@ namespace InvoiceSdk.Renderer.Components
             container
                 .Page(page =>
                 {
-                    page.DefaultTextStyle(style => style.FontSize(_configuration.GlobalFont.Size));
-                    page.DefaultTextStyle(style => style.FontFamily(_configuration.GlobalFont.Name));
+                    page.DefaultTextStyle(style => 
+                        style
+                            .FontColor(_configuration.GlobalTextColor.ToHexString())
+                            .FontFamily(_configuration.GlobalFont.Name));
 
                     page.Margin(50);
 
@@ -67,13 +69,27 @@ namespace InvoiceSdk.Renderer.Components
 
                 if (CanRenderItemsTable())
                 {
-                    column.Item().Element(c => c.AlignCenter().Text("Purchased Items").Bold().FontColor(Colors.Blue.Medium).FontSize(16));
+                    if (!string.IsNullOrEmpty(_configuration.ItemTableConfiguration.TableHeaderText))
+                    {
+                        column.Item().Element(c => c.AlignCenter().Text(_configuration.ItemTableConfiguration.TableHeaderText)
+                            .Bold()
+                            .FontColor(_configuration.ItemTableConfiguration.TableHeaderColor.ToHexString())
+                            .FontSize(16));
+                    }
+
                     column.Item().Component(new ItemTableComponent(_configuration.ItemTableConfiguration, _invoice.Items, _invoice.InvoiceCurrency));
                 }
 
                 if (CanRenderPaymentsTable())
                 {
-                    column.Item().Element(c => c.AlignCenter().Text("Invoice Payments").Bold().FontColor(Colors.Blue.Medium).FontSize(16));
+                    if (!string.IsNullOrEmpty(_configuration.PaymentTableConfiguration.TableHeaderText))
+                    {
+                        column.Item().Element(c => c.AlignCenter().Text(_configuration.PaymentTableConfiguration.TableHeaderText)
+                            .Bold()
+                            .FontColor(_configuration.PaymentTableConfiguration.TableHeaderColor.ToHexString())
+                            .FontSize(16));
+                    }
+
                     column.Item().Component(new PaymentTableComponent(_configuration.PaymentTableConfiguration, _invoice.Payments, _invoice.InvoiceCurrency));
                 }
 
