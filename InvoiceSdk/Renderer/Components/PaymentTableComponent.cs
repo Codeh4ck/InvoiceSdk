@@ -31,7 +31,7 @@ namespace InvoiceSdk.Renderer.Components
                 container.ShowEntire().Background(Colors.Red.Lighten5).Padding(10).Column(column =>
                 {
                     column.Spacing(5);
-                    column.Item().Text(_configuration.NoPaymentsHeaderText).FontColor(Colors.Red.Medium).FontSize(14).SemiBold();
+                    column.Item().Text(_configuration.NoPaymentsNotificationHeader).FontColor(Colors.Red.Medium).FontSize(14).SemiBold();
                     column.Item().Text(_configuration.NoPaymentsNotificationText);
                 });
 

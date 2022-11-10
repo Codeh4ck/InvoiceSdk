@@ -6,7 +6,7 @@ namespace InvoiceSdk.Renderer.Configuration
     {
         public Font TableFont { get; set; }
         public bool DisplayWithoutItems = true;
-        public string NoPaymentsHeaderText = "No payments";
+        public string NoPaymentsNotificationHeader = "No payments";
         public string NoPaymentsNotificationText = "You haven't made any payment yet to fullfil this invoice.";
     }
 }
