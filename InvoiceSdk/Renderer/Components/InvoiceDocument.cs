@@ -40,10 +40,14 @@ namespace InvoiceSdk.Renderer.Components
                         text.Span(" / ");
                         text.TotalPages();
 
-                        text.Span($"\r\n{_configuration.FooterConfiguration.Text}")
-                            .FontFamily(_configuration.FooterConfiguration.Font.Name)
-                            .FontColor(_configuration.FooterConfiguration.TextColor.ToHexString())
-                            .Bold();
+                        if (_configuration.FooterConfiguration != null && !string.IsNullOrEmpty(_configuration.FooterConfiguration.Text))
+                        {
+                            text.Span($"\r\n{_configuration.FooterConfiguration.Text}")
+                                .FontFamily(_configuration.FooterConfiguration.Font.Name)
+                                .FontColor(_configuration.FooterConfiguration.TextColor.ToHexString())
+                                .Bold();
+                        }
+
                     });
                 });
         }
