@@ -25,9 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="QuestPDF" Version="2022.9.0" />
-    <PackageReference Include="ServiceStack.Text.Core" Version="6.3.0" />
+    <PackageReference Include="QuestPDF" Version="2022.11.0" />
+    <PackageReference Include="ServiceStack.Text.Core" Version="6.4.0" />
   </ItemGroup>
 
 </Project>
