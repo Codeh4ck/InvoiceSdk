@@ -3,6 +3,7 @@
     public class Payment : IComparable<Payment>
     {
         public Guid Id { get; set; }
+        public Guid InvoiceId { get; set; }
         public decimal Amount { get; set; }
         public PaymentMethod Method { get; set; }
         public PaymentStatus Status { get; set; }
