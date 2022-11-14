@@ -8,6 +8,7 @@ namespace InvoiceSdk.Generators
     public sealed class XmlInvoiceGenerator : IInvoiceGenerator
     {
         public string GenerateInvoice(Invoice invoice) => XmlSerializer.SerializeToString(invoice);
+        public Invoice GenerateInvoice(string serialized) => XmlSerializer.DeserializeFromString<Invoice>(serialized);
 
         public void GenerateInvoice(Invoice invoice, string fullPath, bool format = true)
         {
