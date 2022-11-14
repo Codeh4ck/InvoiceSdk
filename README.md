@@ -8,6 +8,11 @@
 | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **InvoiceSdk**                   |       [![InvoiceSdk](https://img.shields.io/nuget/v/InvoiceSdk.svg?style=flat-square&label=InvoiceSdk)](https://www.nuget.org/packages/InvoiceSdk/)
 
+To install the package from your NuGet console:
+```
+Install-Package InvoiceSdk 
+```
+
 ## How it works
 
 **InvoiceSdk** has a few prebuilt generic models that represent core aspects of an invoice.
