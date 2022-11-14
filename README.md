@@ -14,16 +14,16 @@
 
 Specifically, the core models of the SDK are:
 
-* **`Invoice`**
+* **`Invoice`**  
 	Represents an invoice document. This is the main model you'll be working with. All serializers expect an Invoice model to serialize/deserialize.
 	
-* **`Payment`**
+* **`Payment`**  
 Represents a payment made to fullfil the invoice. The data it holds is the payment provider name, date, amount and provider URL.
 
-* **`InvoiceItem`**
+* **`InvoiceItem`**  
 Represents an item or service that is assigned to a specific invoice. 
 
-* **`Address`**
+* **`Address`**  
 Represents one of the parties involved in the invoice. An `Invoice` model requires two `Address` instances; one for the beneficiary (seller) and one for the payer (buyer). 
 
 
