@@ -415,7 +415,6 @@ InvoiceConfiguration configuration = InvoiceConfigurationFactory
     
     .ConfigureItemTable()
     .ThatDisplaysItemDescriptions()
-    .ThatDoesNotDisplayItemDescriptions()
     .WithHeader("Purchases Goods/Services")
     .ThatShowsAlertWithoutItems("No items!", "You did not purchase any goods or services!")
     
