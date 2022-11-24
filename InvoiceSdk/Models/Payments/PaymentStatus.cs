@@ -1,11 +1,12 @@
 ﻿namespace InvoiceSdk.Models.Payments
 {
+    [Flags]
     public enum PaymentStatus
     {
-        Paid,
-        Completed,
-        Reverted,
-        Cancelled,
-        Rejected
+        Paid = 1,
+        Completed = 2,
+        Reverted = 4,
+        Cancelled = 8,
+        Rejected = 16
     }
 }
