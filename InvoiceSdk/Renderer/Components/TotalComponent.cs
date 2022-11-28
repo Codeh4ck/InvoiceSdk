@@ -12,7 +12,6 @@ namespace InvoiceSdk.Renderer.Components
         public TotalComponent(List<InvoiceItem> items, InvoiceCurrencySymbol currencySymbol)
         {
             _currencySymbol = currencySymbol ?? throw new ArgumentNullException(nameof(currencySymbol));
-            
             _items = items;
         }
 
@@ -54,19 +53,10 @@ namespace InvoiceSdk.Renderer.Components
             });
         }
 
-        private decimal GetTotalWithVat()
-        {
-            return _items.Sum(x => x.PriceWithVat * x.Quantity);
-        }
+        private decimal GetTotalWithVat() => decimal.Round(_items.Sum(x => x.PriceWithVat * x.Quantity), 2);
 
-        private decimal GetTotalWithoutVat()
-        {
-            return _items.Sum(x => x.UnitPriceWithoutVat * x.Quantity);
-        }
+        private decimal GetTotalWithoutVat() => decimal.Round(_items.Sum(x => x.UnitPriceWithoutVat * x.Quantity), 2);
 
-        private decimal GetVat()
-        {
-            return _items.Max(x => x.VatPercentage);
-        }
+        private decimal GetVat() => _items.Max(x => x.VatPercentage);
     }
 }
