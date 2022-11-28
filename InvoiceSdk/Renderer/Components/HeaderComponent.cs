@@ -2,7 +2,6 @@
 using InvoiceSdk.Models;
 using InvoiceSdk.Renderer.Configuration;
 using QuestPDF.Fluent;
-using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
 namespace InvoiceSdk.Renderer.Components
@@ -52,7 +51,7 @@ namespace InvoiceSdk.Renderer.Components
 
                 if (_headerConfiguration.LogoConfiguration != null && File.Exists(_headerConfiguration.LogoConfiguration.LogoSourceFile))
                     row.ConstantItem(100).Height(_headerConfiguration.LogoConfiguration.LogoHeightCm)
-                        .Image(_headerConfiguration.LogoConfiguration.LogoSourceFile);
+                        .Image(_headerConfiguration.LogoConfiguration.LogoSourceFile, ImageScaling.Resize);
             });
         }
     }
