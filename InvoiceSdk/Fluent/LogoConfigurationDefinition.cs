@@ -1,4 +1,5 @@
-﻿using InvoiceSdk.Renderer.Configuration;
+﻿using System.Drawing;
+using InvoiceSdk.Renderer.Configuration;
 
 namespace InvoiceSdk.Fluent
 {
@@ -20,6 +21,24 @@ namespace InvoiceSdk.Fluent
         public LogoConfigurationDefinition WithLogoFile(string logoFile)
         {
             _invoiceConfiguration.HeaderConfiguration.LogoConfiguration.LogoSourceFile = logoFile;
+            return this;
+        }
+
+        public LogoConfigurationDefinition WithBackgroundColor(Color color)
+        {
+            _invoiceConfiguration.HeaderConfiguration.LogoConfiguration.OverrideBackgroundColor = color;
+            return this;
+        }
+
+        public LogoConfigurationDefinition WithBackgroundColor(string hexColor)
+        {
+            _invoiceConfiguration.HeaderConfiguration.LogoConfiguration.OverrideBackgroundColor = ColorTranslator.FromHtml(hexColor);
+            return this;
+        }
+
+        public LogoConfigurationDefinition WithBackgroundColor(int r, int g, int b)
+        {
+            _invoiceConfiguration.HeaderConfiguration.LogoConfiguration.OverrideBackgroundColor = Color.FromArgb(r, g, g);
             return this;
         }
     }
