@@ -115,7 +115,6 @@ namespace InvoiceSdk.Example
                 
                 .ConfigureAddress()
                 .WithHeaders("Beneficiary", "Receipient")
-                .ThatShowsLabels()
                 .ThatDoesNotShowLabels()
                 
                 // Uncomment these lines and set the path to your logo

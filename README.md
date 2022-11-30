@@ -406,7 +406,6 @@ InvoiceConfiguration configuration = InvoiceConfigurationFactory
     
     .ConfigureAddress()
     .WithHeaders("Beneficiary", "Receipient")
-    .ThatShowsLabels()
     .ThatDoesNotShowLabels()
     
     .ConfigureLogo()
