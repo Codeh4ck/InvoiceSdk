@@ -50,8 +50,12 @@ namespace InvoiceSdk.Renderer.Components
                 });
 
                 if (_headerConfiguration.LogoConfiguration != null && File.Exists(_headerConfiguration.LogoConfiguration.LogoSourceFile))
-                    row.ConstantItem(100).Height(_headerConfiguration.LogoConfiguration.LogoHeightCm)
-                        .Image(_headerConfiguration.LogoConfiguration.LogoSourceFile, ImageScaling.Resize);
+
+                    row.ConstantItem(100)
+                        .Height(_headerConfiguration.LogoConfiguration.LogoHeightCm)
+                        .Background(_headerConfiguration.LogoConfiguration.OverrideBackgroundColor.ToHexString())
+                        .AlignCenter()
+                        .Image(_headerConfiguration.LogoConfiguration.LogoSourceFile, ImageScaling.FitArea);
             });
         }
     }
