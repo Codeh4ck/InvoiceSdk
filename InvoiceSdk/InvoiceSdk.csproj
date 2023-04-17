@@ -1,22 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <Title>InvoiceSdk</Title>
-    <Description>InvoiceSdk is a .NET 6 library that enables the creation of invoices in PDF format using a robust fluent API. InvoiceSdk also supports saving and loading invoices in XML, JSON or CSV format.</Description>
-    <Copyright>Copyright ©2022 Nikolaos Andreou. All rights reserved.</Copyright>
+    <Description>InvoiceSdk is a .NET library that enables the creation of invoices in PDF format using a robust fluent API. InvoiceSdk also supports saving and loading invoices in XML, JSON or CSV format.</Description>
+    <Copyright>Copyright ©2022-2023 Nikolaos Andreou. All rights reserved.</Copyright>
     <PackageProjectUrl>https://github.com/Codeh4ck/InvoiceSdk</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Codeh4ck/InvoiceSdk</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>invoice,pdf,sdk,invoicing</PackageTags>
-    <AssemblyVersion>1.0.4</AssemblyVersion>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageIcon>myAvatar.png</PackageIcon>
-    <FileVersion>1.0.4</FileVersion>
-    <Version>1.0.4</Version>
+    <FileVersion>1.1.0</FileVersion>
+    <Version>1.1.0</Version>
+    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
