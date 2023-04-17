@@ -1,6 +1,4 @@
-﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Jobs;
-using InvoiceSdk.Fluent;
+﻿using InvoiceSdk.Fluent;
 using InvoiceSdk.Models;
 using InvoiceSdk.Models.Payments;
 using InvoiceSdk.Renderer;
@@ -8,10 +6,15 @@ using InvoiceSdk.Renderer.Configuration;
 using InvoiceSdk.Renderer.Internal;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
+using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Jobs;
 
 namespace InvoiceSdk.Benchmarks;
 
+[HtmlExporter]
 [MemoryDiagnoser]
+[SimpleJob(RuntimeMoniker.Net60)]
+[SimpleJob(RuntimeMoniker.Net70)]
 public class InvoiceGeneratorBenchmarks
 {
     private static Invoice _invoice;
