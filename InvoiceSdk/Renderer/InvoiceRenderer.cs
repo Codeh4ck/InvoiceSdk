@@ -14,7 +14,7 @@ public class InvoiceRenderer : IInvoiceRenderer
     /// <param name="configuration">The configuration to be passed to the internal invoice renderer.</param>
     /// <returns></returns>
     public IDocument RenderInvoice(Invoice invoice, InvoiceConfiguration configuration) => new InvoiceDocument(invoice, configuration);
-    
+
     /// <summary>
     /// Renders an invoice document based on the provided Invoice model and configuration.
     /// </summary>
