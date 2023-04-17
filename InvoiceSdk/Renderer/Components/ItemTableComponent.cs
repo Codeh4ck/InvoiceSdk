@@ -62,7 +62,7 @@ internal class ItemTableComponent : IComponent
 
             foreach (InvoiceItem item in _invoiceItems)
             {
-                table.Cell().Element(CellStyle).Text(_invoiceItems.IndexOf(item) + 1);
+                table.Cell().Element(CellStyle).Text((_invoiceItems.IndexOf(item) + 1).ToString());
 
                 if (!_configuration.DisplayItemDescriptions || string.IsNullOrEmpty(item.Description))
                     table.Cell().Element(CellStyle).Text(item.Name);
@@ -79,7 +79,7 @@ internal class ItemTableComponent : IComponent
                 }
 
                 table.Cell().Element(CellStyle).AlignRight().Text($"{item.UnitPriceWithoutVat}{_invoiceCurrencySymbol.GetSymbol()}");
-                table.Cell().Element(CellStyle).AlignRight().Text(item.Quantity);
+                table.Cell().Element(CellStyle).AlignRight().Text(item.Quantity.ToString());
                 table.Cell().Element(CellStyle).AlignRight().Text($"{item.VatPercentage}%");
                 table.Cell().Element(CellStyle).AlignRight().Text($"{item.PriceWithVat * item.Quantity}{_invoiceCurrencySymbol.GetSymbol()}");
 
