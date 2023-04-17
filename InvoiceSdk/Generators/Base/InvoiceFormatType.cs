@@ -1,9 +1,8 @@
-﻿namespace InvoiceSdk.Generators.Base
+﻿namespace InvoiceSdk.Generators.Base;
+
+public enum InvoiceFormatType
 {
-    public enum InvoiceFormatType
-    {
-        Xml,
-        Json,
-        Csv
-    }
+    Xml,
+    Json,
+    Csv
 }

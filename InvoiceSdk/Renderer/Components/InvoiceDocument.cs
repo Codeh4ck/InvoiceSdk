@@ -6,118 +6,117 @@ using InvoiceSdk.Helpers;
 using InvoiceSdk.Models;
 using InvoiceSdk.Renderer.Configuration;
 
-namespace InvoiceSdk.Renderer.Components
+namespace InvoiceSdk.Renderer.Components;
+
+public class InvoiceDocument : IDocument
 {
-    public class InvoiceDocument : IDocument
+    private readonly Invoice _invoice;
+    private readonly InvoiceConfiguration _configuration;
+
+    public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
+
+    public InvoiceDocument(Invoice invoice, InvoiceConfiguration configuration)
     {
-        private readonly Invoice _invoice;
-        private readonly InvoiceConfiguration _configuration;
+        _invoice = invoice ?? throw new ArgumentNullException(nameof(invoice));
+        _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+    }
 
-        public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
-
-        public InvoiceDocument(Invoice invoice, InvoiceConfiguration configuration)
-        {
-            _invoice = invoice ?? throw new ArgumentNullException(nameof(invoice));
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-        }
-
-        public void Compose(IDocumentContainer container)
-        {
-            container
-                .Page(page =>
-                {
-                    page.DefaultTextStyle(style => 
-                        style
-                            .FontColor(_configuration.GlobalTextColor.ToHexString())
-                            .FontFamily(_configuration.GlobalFont.Name));
-
-                    page.Margin(50);
-
-                    page.Header().Component(new HeaderComponent(_invoice, _configuration.HeaderConfiguration));
-                    page.Content().Element(ComposeContent);
-
-                    page.Footer().AlignCenter().Text(text =>
-                    {
-                        text.CurrentPageNumber();
-                        text.Span(" / ");
-                        text.TotalPages();
-
-                        if (_configuration.FooterConfiguration != null && !string.IsNullOrEmpty(_configuration.FooterConfiguration.Text))
-                        {
-                            text.Span($"\r\n{_configuration.FooterConfiguration.Text}")
-                                .FontFamily(_configuration.FooterConfiguration.Font.Name)
-                                .FontColor(_configuration.FooterConfiguration.TextColor.ToHexString())
-                                .Bold();
-                        }
-
-                    });
-                });
-        }
-
-        private void ComposeContent(IContainer container)
-        {
-            container.PaddingVertical(40).Column(column =>
+    public void Compose(IDocumentContainer container)
+    {
+        container
+            .Page(page =>
             {
-                column.Spacing(20);
+                page.DefaultTextStyle(style => 
+                    style
+                        .FontColor(_configuration.GlobalTextColor.ToHexString())
+                        .FontFamily(_configuration.GlobalFont.Name));
 
-                column.Item().Row(row =>
+                page.Margin(50);
+
+                page.Header().Component(new HeaderComponent(_invoice, _configuration.HeaderConfiguration));
+                page.Content().Element(ComposeContent);
+
+                page.Footer().AlignCenter().Text(text =>
                 {
-                    row.RelativeItem().Component(new AddressComponent(_invoice.SellerAddress, _configuration.AddressConfiguration.SellerHeader, _configuration.AddressConfiguration.ShowLabels));
-                    row.ConstantItem(50);
-                    row.RelativeItem().Component(new AddressComponent(_invoice.CustomerAddress, _configuration.AddressConfiguration.CustomerHeader, _configuration.AddressConfiguration.ShowLabels));
+                    text.CurrentPageNumber();
+                    text.Span(" / ");
+                    text.TotalPages();
+
+                    if (_configuration.FooterConfiguration != null && !string.IsNullOrEmpty(_configuration.FooterConfiguration.Text))
+                    {
+                        text.Span($"\r\n{_configuration.FooterConfiguration.Text}")
+                            .FontFamily(_configuration.FooterConfiguration.Font.Name)
+                            .FontColor(_configuration.FooterConfiguration.TextColor.ToHexString())
+                            .Bold();
+                    }
+
                 });
-
-                if (CanRenderItemsTable())
-                {
-                    if (!string.IsNullOrEmpty(_configuration.ItemTableConfiguration.TableHeaderText))
-                    {
-                        column.Item().Element(c => c.AlignCenter().Text(_configuration.ItemTableConfiguration.TableHeaderText)
-                            .Bold()
-                            .FontColor(_configuration.ItemTableConfiguration.TableHeaderColor.ToHexString())
-                            .FontSize(16));
-                    }
-
-                    column.Item().Component(new ItemTableComponent(_configuration.ItemTableConfiguration, _invoice.Items, _invoice.InvoiceCurrency));
-                }
-
-                if (CanRenderPaymentsTable())
-                {
-                    if (!string.IsNullOrEmpty(_configuration.PaymentTableConfiguration.TableHeaderText))
-                    {
-                        column.Item().Element(c => c.AlignCenter().Text(_configuration.PaymentTableConfiguration.TableHeaderText)
-                            .Bold()
-                            .FontColor(_configuration.PaymentTableConfiguration.TableHeaderColor.ToHexString())
-                            .FontSize(16));
-                    }
-
-                    column.Item().Component(new PaymentTableComponent(_configuration.PaymentTableConfiguration, _invoice.Payments, _invoice.InvoiceCurrency));
-                }
-
-                column.Item().Component(new TotalComponent(_invoice.Items, _invoice.InvoiceCurrency));
-
-                if (!string.IsNullOrWhiteSpace(_invoice.Note))
-                    column.Item().PaddingTop(25).Component(new NoteComponent(_invoice.Note));
             });
-        }
+    }
 
-        private bool CanRenderItemsTable()
+    private void ComposeContent(IContainer container)
+    {
+        container.PaddingVertical(40).Column(column =>
         {
-            if (_invoice.Items is { Count: > 0 }) return true;
+            column.Spacing(20);
 
-            if (_invoice.Items == null || _invoice.Items.Count == 0)
-                return _configuration.ItemTableConfiguration.DisplayWithoutItems;
+            column.Item().Row(row =>
+            {
+                row.RelativeItem().Component(new AddressComponent(_invoice.SellerAddress, _configuration.AddressConfiguration.SellerHeader, _configuration.AddressConfiguration.ShowLabels));
+                row.ConstantItem(50);
+                row.RelativeItem().Component(new AddressComponent(_invoice.CustomerAddress, _configuration.AddressConfiguration.CustomerHeader, _configuration.AddressConfiguration.ShowLabels));
+            });
 
-            return false;
-        }
+            if (CanRenderItemsTable())
+            {
+                if (!string.IsNullOrEmpty(_configuration.ItemTableConfiguration.TableHeaderText))
+                {
+                    column.Item().Element(c => c.AlignCenter().Text(_configuration.ItemTableConfiguration.TableHeaderText)
+                        .Bold()
+                        .FontColor(_configuration.ItemTableConfiguration.TableHeaderColor.ToHexString())
+                        .FontSize(16));
+                }
 
-        private bool CanRenderPaymentsTable()
-        {
-            if (_invoice.Payments is { Count: > 0 }) return true;
+                column.Item().Component(new ItemTableComponent(_configuration.ItemTableConfiguration, _invoice.Items, _invoice.InvoiceCurrency));
+            }
 
-            if (_invoice.Payments == null || _invoice.Payments.Count == 0)
-                return _configuration.PaymentTableConfiguration.DisplayWithoutItems;
+            if (CanRenderPaymentsTable())
+            {
+                if (!string.IsNullOrEmpty(_configuration.PaymentTableConfiguration.TableHeaderText))
+                {
+                    column.Item().Element(c => c.AlignCenter().Text(_configuration.PaymentTableConfiguration.TableHeaderText)
+                        .Bold()
+                        .FontColor(_configuration.PaymentTableConfiguration.TableHeaderColor.ToHexString())
+                        .FontSize(16));
+                }
 
-            return false;
-        }
+                column.Item().Component(new PaymentTableComponent(_configuration.PaymentTableConfiguration, _invoice.Payments, _invoice.InvoiceCurrency));
+            }
+
+            column.Item().Component(new TotalComponent(_invoice.Items, _invoice.InvoiceCurrency));
+
+            if (!string.IsNullOrWhiteSpace(_invoice.Note))
+                column.Item().PaddingTop(25).Component(new NoteComponent(_invoice.Note));
+        });
+    }
+
+    private bool CanRenderItemsTable()
+    {
+        if (_invoice.Items is { Count: > 0 }) return true;
+
+        if (_invoice.Items == null || _invoice.Items.Count == 0)
+            return _configuration.ItemTableConfiguration.DisplayWithoutItems;
+
+        return false;
+    }
+
+    private bool CanRenderPaymentsTable()
+    {
+        if (_invoice.Payments is { Count: > 0 }) return true;
+
+        if (_invoice.Payments == null || _invoice.Payments.Count == 0)
+            return _configuration.PaymentTableConfiguration.DisplayWithoutItems;
+
+        return false;
     }
 }

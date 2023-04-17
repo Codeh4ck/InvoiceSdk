@@ -1,11 +1,10 @@
 ﻿using InvoiceSdk.Models;
 
-namespace InvoiceSdk.Generators.Base
+namespace InvoiceSdk.Generators.Base;
+
+public interface IInvoiceGenerator
 {
-    public interface IInvoiceGenerator
-    {
-        string GenerateInvoice(Invoice invoice);
-        Invoice GenerateInvoice(string serialized);
-        Task GenerateInvoice(Invoice invoice, string fullPath, bool format = true, CancellationToken token = default);
-    }
+    string GenerateInvoice(Invoice invoice);
+    Invoice GenerateInvoice(string serialized);
+    Task GenerateInvoice(Invoice invoice, string fullPath, bool format = true, CancellationToken token = default);
 }

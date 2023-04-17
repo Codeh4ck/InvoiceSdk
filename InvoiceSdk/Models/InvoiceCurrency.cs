@@ -1,8 +1,7 @@
-﻿namespace InvoiceSdk.Models
+﻿namespace InvoiceSdk.Models;
+
+public enum InvoiceCurrency
 {
-    public enum InvoiceCurrency
-    {
-        Dollar,
-        Euro
-    }
+    Dollar,
+    Euro
 }
