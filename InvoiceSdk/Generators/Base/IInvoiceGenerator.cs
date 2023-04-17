@@ -6,6 +6,6 @@ namespace InvoiceSdk.Generators.Base
     {
         string GenerateInvoice(Invoice invoice);
         Invoice GenerateInvoice(string serialized);
-        void GenerateInvoice(Invoice invoice, string fullPath, bool format = true);
+        Task GenerateInvoice(Invoice invoice, string fullPath, bool format = true, CancellationToken token = default);
     }
 }

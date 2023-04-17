@@ -9,10 +9,10 @@ namespace InvoiceSdk.Generators
         public string GenerateInvoice(Invoice invoice) => CsvSerializer.SerializeToCsv(new[] { invoice });
         public Invoice GenerateInvoice(string serialized) => CsvSerializer.DeserializeFromString<Invoice>(serialized);
 
-        public void GenerateInvoice(Invoice invoice, string fullPath, bool format = true)
+        public async Task GenerateInvoice(Invoice invoice, string fullPath, bool format = true, CancellationToken token = default)
         {
             string csv = GenerateInvoice(invoice);
-            File.WriteAllText(fullPath, csv);
+            await File.WriteAllTextAsync(fullPath, csv, token);
         }
     }
 }

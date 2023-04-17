@@ -10,7 +10,7 @@ namespace InvoiceSdk.Generators
         public string GenerateInvoice(Invoice invoice) => XmlSerializer.SerializeToString(invoice);
         public Invoice GenerateInvoice(string serialized) => XmlSerializer.DeserializeFromString<Invoice>(serialized);
 
-        public void GenerateInvoice(Invoice invoice, string fullPath, bool format = true)
+        public async Task GenerateInvoice(Invoice invoice, string fullPath, bool format = true, CancellationToken token = default)
         {
             XmlSerializer.XmlWriterSettings.Encoding = Encoding.UTF8;
             XmlSerializer.XmlWriterSettings.Indent = format;
@@ -18,7 +18,7 @@ namespace InvoiceSdk.Generators
 
             string xml = GenerateInvoice(invoice);
 
-            File.WriteAllText(fullPath, xml, Encoding.UTF8);
+            await File.WriteAllTextAsync(fullPath, xml, Encoding.UTF8, token);
         }
     }
 }

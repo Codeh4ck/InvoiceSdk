@@ -19,12 +19,12 @@ namespace InvoiceSdk.Generators
             return serializer.DeserializeFromString(serialized);
         }
 
-        public void GenerateInvoice(Invoice invoice, string fullPath, bool format = true)
+        public async Task GenerateInvoice(Invoice invoice, string fullPath, bool format = true, CancellationToken token = default)
         {
             string json = GenerateInvoice(invoice);
             if (format) json = json.IndentJson();
 
-            File.WriteAllText(fullPath, json, Encoding.UTF8);
+            await File.WriteAllTextAsync(fullPath, json, Encoding.UTF8, token);
         }
     }
 }
