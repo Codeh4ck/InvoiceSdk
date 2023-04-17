@@ -1,6 +1,6 @@
 # InvoiceSdk
 
-**InvoiceSdk** is a .NET 6 library that enables the creation of invoices in PDF format using a robust fluent API. **InvoiceSdk** also supports serializing invoices in XML, JSON or CSV format. **InvoiceSdk** is based on the [QuestPDF](https://github.com/QuestPDF/QuestPDF) library for the rendering component and [ServiceStack.Text](https://github.com/ServiceStack/ServiceStack) for serialization.
+**InvoiceSdk** is a .NET 6/7 library that enables the creation of invoices in PDF format using a robust fluent API. **InvoiceSdk** also supports serializing invoices in XML, JSON or CSV format. **InvoiceSdk** is based on the [QuestPDF](https://github.com/QuestPDF/QuestPDF) library for the rendering component and [ServiceStack.Text](https://github.com/ServiceStack/ServiceStack) for serialization.
 
 **The package is available on NuGet:**
 
