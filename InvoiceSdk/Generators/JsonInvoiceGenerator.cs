@@ -19,7 +19,16 @@ public sealed class JsonInvoiceGenerator : IInvoiceGenerator
         return serializer.DeserializeFromString(serialized);
     }
 
-    public async Task GenerateInvoice(Invoice invoice, string fullPath, bool format = true, CancellationToken token = default)
+    public void GenerateInvoice(Invoice invoice, string fullPath, bool format = true)
+    {
+        string json = GenerateInvoice(invoice);
+        if (format) json = json.IndentJson();
+
+        File.WriteAllText(fullPath, json, Encoding.UTF8);
+    }
+
+    public async Task GenerateInvoiceAsync(Invoice invoice, string fullPath, bool format = true,
+        CancellationToken token = default)
     {
         string json = GenerateInvoice(invoice);
         if (format) json = json.IndentJson();
