@@ -3,28 +3,36 @@ using ServiceStack.Text;
 using InvoiceSdk.Models;
 using InvoiceSdk.Generators.Base;
 
-namespace InvoiceSdk.Generators
+namespace InvoiceSdk.Generators;
+
+public sealed class JsonInvoiceGenerator : IInvoiceGenerator
 {
-    public sealed class JsonInvoiceGenerator : IInvoiceGenerator
+    public string GenerateInvoice(Invoice invoice)
     {
-        public string GenerateInvoice(Invoice invoice)
-        {
-            JsonSerializer<Invoice> serializer = new JsonSerializer<Invoice>();
-            return serializer.SerializeToString(invoice);
-        }
+        JsonSerializer<Invoice> serializer = new JsonSerializer<Invoice>();
+        return serializer.SerializeToString(invoice);
+    }
 
-        public Invoice GenerateInvoice(string serialized)
-        {
-            JsonSerializer<Invoice> serializer = new JsonSerializer<Invoice>();
-            return serializer.DeserializeFromString(serialized);
-        }
+    public Invoice GenerateInvoice(string serialized)
+    {
+        JsonSerializer<Invoice> serializer = new JsonSerializer<Invoice>();
+        return serializer.DeserializeFromString(serialized);
+    }
 
-        public void GenerateInvoice(Invoice invoice, string fullPath, bool format = true)
-        {
-            string json = GenerateInvoice(invoice);
-            if (format) json = json.IndentJson();
+    public void GenerateInvoice(Invoice invoice, string fullPath, bool format = true)
+    {
+        string json = GenerateInvoice(invoice);
+        if (format) json = json.IndentJson();
 
-            File.WriteAllText(fullPath, json, Encoding.UTF8);
-        }
+        File.WriteAllText(fullPath, json, Encoding.UTF8);
+    }
+
+    public async Task GenerateInvoiceAsync(Invoice invoice, string fullPath, bool format = true,
+        CancellationToken token = default)
+    {
+        string json = GenerateInvoice(invoice);
+        if (format) json = json.IndentJson();
+
+        await File.WriteAllTextAsync(fullPath, json, Encoding.UTF8, token);
     }
 }

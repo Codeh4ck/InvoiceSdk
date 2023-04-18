@@ -1,7 +1,6 @@
-﻿namespace InvoiceSdk.Generators.Base
+﻿namespace InvoiceSdk.Generators.Base;
+
+public interface IInvoiceGeneratorFactory
 {
-    public interface IInvoiceGeneratorFactory
-    {
-        IInvoiceGenerator CreateInvoiceGenerator(InvoiceFormatType invoiceFormatType);
-    }
+    IInvoiceGenerator CreateInvoiceGenerator(InvoiceFormatType invoiceFormatType);
 }

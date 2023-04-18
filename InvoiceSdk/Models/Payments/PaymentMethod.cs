@@ -1,8 +1,7 @@
-﻿namespace InvoiceSdk.Models.Payments
+﻿namespace InvoiceSdk.Models.Payments;
+
+public class PaymentMethod
 {
-    public class PaymentMethod
-    {
-        public string Name { get; set; }
-        public string ProviderUrl { get; set; }
-    }
+    public string Name { get; set; }
+    public string ProviderUrl { get; set; }
 }

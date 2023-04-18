@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvoiceSdk", "InvoiceSdk\In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoiceSdk.Example", "InvoiceSdk.Example\InvoiceSdk.Example.csproj", "{EAF7629D-987A-4388-ABEF-1D9A65929511}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoiceSdk.Benchmarks", "InvoiceSdk.Benchmarks\InvoiceSdk.Benchmarks.csproj", "{3F1ABA78-88DD-4372-98DA-664D8AA950D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{EAF7629D-987A-4388-ABEF-1D9A65929511}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAF7629D-987A-4388-ABEF-1D9A65929511}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAF7629D-987A-4388-ABEF-1D9A65929511}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F1ABA78-88DD-4372-98DA-664D8AA950D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F1ABA78-88DD-4372-98DA-664D8AA950D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F1ABA78-88DD-4372-98DA-664D8AA950D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F1ABA78-88DD-4372-98DA-664D8AA950D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

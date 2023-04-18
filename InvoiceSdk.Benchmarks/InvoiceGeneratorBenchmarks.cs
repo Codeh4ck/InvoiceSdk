@@ -1,19 +1,32 @@
-﻿using InvoiceSdk.Models;
+﻿using InvoiceSdk.Fluent;
+using InvoiceSdk.Models;
 using InvoiceSdk.Models.Payments;
-using InvoiceSdk.Fluent;
-using InvoiceSdk.Renderer.Internal;
-using InvoiceSdk.Renderer.Configuration;
 using InvoiceSdk.Renderer;
+using InvoiceSdk.Renderer.Configuration;
+using InvoiceSdk.Renderer.Internal;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
+using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Jobs;
 
-namespace InvoiceSdk.Example;
+namespace InvoiceSdk.Benchmarks;
 
-public class Program
+[HtmlExporter]
+[MemoryDiagnoser]
+[SimpleJob(RuntimeMoniker.Net60)]
+[SimpleJob(RuntimeMoniker.Net70)]
+public class InvoiceGeneratorBenchmarks
 {
-    public static int Main(string[] args)
+    private static Invoice _invoice;
+    private static InvoiceConfiguration _configuration;
+    private static IInvoiceRenderer _invoiceRenderer;
+
+    [GlobalSetup]
+    public void Setup()
     {
-        Invoice invoice = new Invoice()
+        #region Setup Invoice
+
+        _invoice = new Invoice()
         {
             Id = Guid.NewGuid(),
             Title = "Example invoice",
@@ -46,15 +59,16 @@ public class Program
             IssuedAt = DateTime.Now,
             DueAt = DateTime.Now.AddDays(7),
             UpdatedAt = null,
-            Note = "This invoice has been created using InvoiceSdk. This will appear at the end of the invoice, before the footer as a highlighted remark."
+            Note =
+                "This invoice has been created using InvoiceSdk. This will appear at the end of the invoice, before the footer as a highlighted remark."
         };
 
-        invoice.Items = new List<InvoiceItem>()
+        _invoice.Items = new List<InvoiceItem>()
         {
             new()
             {
                 Id = 534,
-                InvoiceId = invoice.Id,
+                InvoiceId = _invoice.Id,
                 Description = "Subscription #1",
                 Name = "Subscription",
                 UnitPriceWithoutVat = 10,
@@ -64,7 +78,7 @@ public class Program
             new()
             {
                 Id = 5435345,
-                InvoiceId = invoice.Id,
+                InvoiceId = _invoice.Id,
                 Description = "Credits #1",
                 Name = "Credits",
                 UnitPriceWithoutVat = 3,
@@ -74,7 +88,7 @@ public class Program
             new()
             {
                 Id = 6544,
-                InvoiceId = invoice.Id,
+                InvoiceId = _invoice.Id,
                 Description = "Lorem ipsum dolor sit amet dolor amet lorem",
                 Name = "Upgrade",
                 UnitPriceWithoutVat = 23,
@@ -83,12 +97,12 @@ public class Program
             }
         };
 
-        invoice.Payments = new List<Payment>()
+        _invoice.Payments = new List<Payment>()
         {
             new()
             {
                 Id = Guid.NewGuid(),
-                InvoiceId = invoice.Id,
+                InvoiceId = _invoice.Id,
                 Amount = 48,
                 Method = new() { Name = "PayPal", ProviderUrl = "paypal.com" },
                 PaidAt = DateTime.Now,
@@ -97,7 +111,7 @@ public class Program
             new()
             {
                 Id = Guid.NewGuid(),
-                InvoiceId = invoice.Id,
+                InvoiceId = _invoice.Id,
                 Amount = 10,
                 Method = new() { Name = "Stripe", ProviderUrl = "stripe.com" },
                 PaidAt = DateTime.Now,
@@ -105,44 +119,65 @@ public class Program
             }
         };
 
+        #endregion
 
-        InvoiceConfiguration configuration = InvoiceConfigurationFactory
+        #region Setup Invoice Configuration
+
+        _configuration = InvoiceConfigurationFactory
             .CreateConfiguration()
             .WithGlobalFont(new Font("Calibri"))
-                
             .ConfigureHeader()
             .WithTextColor("#2196f3")
-                
             .ConfigureAddress()
             .WithHeaders("Beneficiary", "Receipient")
             .ThatDoesNotShowLabels()
-                
+
             // Uncomment these lines and set the path to your logo
             //.ConfigureLogo()
             //.WithLogoHeightCm(50f)
             //.WithLogoFile("C:/Users/Admin/Desktop/Logo.png")
-                
             .ConfigureItemTable()
             .ThatDisplaysItemDescriptions()
             .WithHeader("Purchases Goods/Services")
             .ThatShowsAlertWithoutItems("No items!", "You did not purchase any goods or services!")
-                
             .ConfigurePaymentTable()
             .ThatShowsAlertWithoutItems("No payments!", "You did not make any payments for this invoice!")
             .WithHeader("Invoice Payments")
-                
             .ConfigureFooter()
             .WithText("Made with InvoiceSdk!")
             .WithTextColor("#2196f3")
-                
             .Build();
 
-        IInvoiceRenderer renderer = new InvoiceRenderer();
-        IDocument document = renderer.RenderInvoice(invoice, configuration);
+        #endregion
 
-        string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory), "Invoice.pdf");
-        document.GeneratePdf(path);
+        _invoiceRenderer = new InvoiceRenderer();
+    }
 
-        return 0;
+    [Benchmark]
+    public void GeneratePdfInvoice()
+    {
+        IDocument document = _invoiceRenderer.RenderInvoice(_invoice, _configuration);
+        byte[] _ = document.GeneratePdf();
+    }
+
+    [Benchmark]
+    public void GenerateXpsInvoice()
+    {
+        IDocument document = _invoiceRenderer.RenderInvoice(_invoice, _configuration);
+        byte[] _ = document.GenerateXps();
+    }
+    
+    [Benchmark]
+    public async Task GeneratePdfInvoiceAsync()
+    {
+        IDocument document = await _invoiceRenderer.RenderInvoiceAsync(_invoice, _configuration);
+        byte[] _ = document.GeneratePdf();
+    }
+
+    [Benchmark]
+    public async Task GenerateXpsInvoiceAsync()
+    {
+        IDocument document = await _invoiceRenderer.RenderInvoiceAsync(_invoice, _configuration);
+        byte[] _ = document.GenerateXps();
     }
 }
