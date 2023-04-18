@@ -9,6 +9,7 @@
 | **InvoiceSdk**                   |       [![InvoiceSdk](https://img.shields.io/nuget/v/InvoiceSdk.svg?style=flat-square&label=InvoiceSdk)](https://www.nuget.org/packages/InvoiceSdk/)
 
 To install the package from your NuGet console:
+
 ```
 Install-Package InvoiceSdk 
 ```
@@ -20,26 +21,24 @@ Install-Package InvoiceSdk
 Specifically, the core models of the SDK are:
 
 * **`Invoice`**  
-	Represents an invoice document. This is the main model you'll be working with. All serializers expect an Invoice model to serialize/deserialize.
-	
+ Represents an invoice document. This is the main model you'll be working with. All serializers expect an Invoice model to serialize/deserialize.
+ 
 * **`Payment`**  
 Represents a payment made to fullfil the invoice. The data it holds is the payment provider name, date, amount and provider URL.
 
 * **`InvoiceItem`**  
-Represents an item or service that is assigned to a specific invoice. 
+Represents an item or service that is assigned to a specific invoice.
 
 * **`Address`**  
-Represents one of the parties involved in the invoice. An `Invoice` model requires two `Address` instances; one for the beneficiary (seller) and one for the payer (buyer). 
+Represents one of the parties involved in the invoice. An `Invoice` model requires two `Address` instances; one for the beneficiary (seller) and one for the payer (buyer).
 
-
-**InvoiceSdk** works by allowing you to create an `Invoice` model, specify the items/services purchased by assigning `InvoiceItem` class instances to the `Invoice`. Additionally assign `Payment` model instances to let the invoice know that payments have been made to fullfil it. 
+**InvoiceSdk** works by allowing you to create an `Invoice` model, specify the items/services purchased by assigning `InvoiceItem` class instances to the `Invoice`. Additionally assign `Payment` model instances to let the invoice know that payments have been made to fullfil it.
 
 You can serialize/deserialize `Invoice` models to and from **JSON**, **XML** and **CSV**.
 
-
 ## Creating an invoice
 
-### Create an `Invoice` using the following snippet:
+### Create an `Invoice` using the following snippet
 
 ```csharp
 Invoice invoice = new Invoice()
@@ -81,8 +80,7 @@ Invoice invoice = new Invoice()
 
 Every property of the `Invoice` model is open to modify and assign as you please. Typically, the `Number` property should be an auto-incremented number. However, the choice is still yours to make on how these fields are populated. You can retrieve the data from a database or you can build it on the fly after a successful payment has been made to your service. It's all customizable.
 
-
-###  Assign purchased goods/services to the `Invoice` like so:
+### Assign purchased goods/services to the `Invoice` like so
 
 ```csharp
 invoice.Items = new List<InvoiceItem>()
@@ -119,13 +117,14 @@ invoice.Items = new List<InvoiceItem>()
     }
 };
 ```
+
 As before, the `InvoiceItem` properties are also fully customizable. The only field that needs to be properly set is the `InvoiceId` property which holds the `Id` of an `Invoice`.
 
 ***Note***: The `Description` property holds the value of the text that will be rendered on an invoice should you choose to render item descriptions. They will be rendered underneath the `Name` property.
 
 You can set different VAT percentages for each item. It will be used to calculate the total price of each item.
 
-### Assign payments to the invoice like so:
+### Assign payments to the invoice like so
 
 ```csharp
 invoice.Payments = new List<Payment>()
@@ -168,38 +167,46 @@ The `Paid` and `Completed` values are interchangeable. However, if for any reaso
 
 ## Serializing an invoice to various formats
 
-Currently, **InvoiceSdk** supports 3 different serialization formats; **JSON**, **XML** and **CSV**. Thanks to `ServiceStack.Text`, it is also possible to deserialize from **CSV** into an `Invoice` model. 
+Currently, **InvoiceSdk** supports 3 different serialization formats; **JSON**, **XML** and **CSV**. Thanks to `ServiceStack.Text`, it is also possible to deserialize from **CSV** into an `Invoice` model.
 
-### First create an invoice generator:
+### First create an invoice generator
 
 * For JSON:
+
 ```csharp
 IInvoiceGeneratorFactory factory = new InvoiceGeneratorFactory();
 IInvoiceGenerator generator = factory.CreateInvoiceGenerator(InvoiceFormatType.Json);
 ```
 
 * For XML:
+
 ```csharp
 IInvoiceGeneratorFactory factory = new InvoiceGeneratorFactory();
 IInvoiceGenerator generator = factory.CreateInvoiceGenerator(InvoiceFormatType.Xml);
 ```
 
 * For CSV:
+
 ```csharp
 IInvoiceGeneratorFactory factory = new InvoiceGeneratorFactory();
 IInvoiceGenerator generator = factory.CreateInvoiceGenerator(InvoiceFormatType.Csv);
 ```
+
 ### Serialize an invoice
 
 * Serialize to `string`:
+
 ```csharp
-string serializedInvoice = generator.GenerateInvoice(invoice);
+string serializedInvoiceSync = generator.GenerateInvoice(invoice);
+string serializedInvoiceAsync = await generator.GenerateInvoiceAsync(invoice);
 ```
 
 * Serialize directly to disk file:
+
 ```csharp
 generator.GenerateInvoice(invoice, "C:/Users/Admin/Desktop/Invoice.{json/xml/csv}", true);
 ```
+
 ***Note: The third parameter in this overload is a `bool` which lets the invoice generator know that it should format  (ident & prettify)  the serialized string. Also make sure to use the correct extension on the path parameter.***
 
 ### Deserialize an invoice
@@ -213,13 +220,14 @@ Invoice invoice = generator.GenerateInvoice(serializedInvoice);
 
 The first thing you need to do in order to render an invoice is create an `InvoiceConfiguration` class with your desired settings. By default, the `InvoiceConfiguration` class has predefined settings but these can be changed easily. To create invoice configuration, you can use the library's fluent API to make your work easier.
 
-### Create a configuration instance by using the following method:
+### Create a configuration instance by using the following method
 
 ```csharp
 InvoiceConfigurationDefinition configDefinition = InvoiceConfigurationFactory
     .CreateConfiguration()
     .WithGlobalFont(new Font("Calibri"));
 ```
+
 You can specify any font of your choise and customize the font size in the `WithGlobalFont` method. If you want a different font with a different font size, let's assume it is **Times New Roman** with font size **14**, you'd do it as follows:
 
 ```csharp
@@ -232,11 +240,12 @@ Now that you have an `InvoiceConfigurationDefinition`, you can customize every a
 
 Configures the header of the invoice.
 
-```csharp 
+```csharp
 WithTextColor(int r, int g, int b) // Overload
 WithTextColor(Color color) // Overload
 WithTextColor(string hexColor) // Overload
 ```
+
 Sets the color of the header text.
 
 ### `ConfigureAddress()`
@@ -247,9 +256,10 @@ Configures the address components of the invoice. Those components include the b
 WithHeaders(string sellerHeader, string buyerHeader)
 ```
 
-Sets the headers of the seller and buyer address areas. 
+Sets the headers of the seller and buyer address areas.
 
 ----
+
 ```csharp
 .ThatShowsLabels()
 ```
@@ -259,6 +269,7 @@ Sets the headers of the seller and buyer address areas.
 ```csharp
 .ThatDoesNotShowLabels()
 ```
+
 Decides weather the renderer will include a label for each field of the address component.
 
 ### `ConfigureLogo()`
@@ -268,6 +279,7 @@ Configures the logo on the top right corner of the invoice PDF document.
 ```csharp
 WithLogoHeightCm(float logoHeight) // Default is 50f
 ```
+
 Sets the logo height in centimeters.
 
 ___
@@ -285,25 +297,30 @@ Configures the table of goods/services.
 ```csharp
 ThatDisplaysItemDescriptions()
 ```
+
 **OR**
 
 ```csharp
 ThatDoesNotDisplayItemDescriptions()
 ```
+
 Determines weather the table will display the item description below each item's name. Use one of the methods, not both. If you use both methods, the last one in the chain will be honored.
 ___
 
 ```csharp
 WithHeader(string headerText)
 ```
+
 Specifies the text of the table header. Do not use it or set the header text to `string.Empty` to display no header.
 
 ---
+
 ```csharp
 WithHeaderColor(int r, int g, int b) // Overload
 WithHeaderColor(Color color) // Overload
 WithHeaderColor(string hexColor) // Overload
 ```
+
 Sets the color of the header text.
 
 ___
@@ -311,6 +328,7 @@ ___
 ```csharp
 WithFont(Font font)
 ```
+
 Overrides the global font for the given table.
 
 ___
@@ -318,6 +336,7 @@ ___
 ```csharp
 ThatShowsAlertWithoutItems(string header, string text)
 ```
+
 Shows an alert instead of a table when there are no goods/services assigned to the invoice.
 
 **OR**
@@ -325,6 +344,7 @@ Shows an alert instead of a table when there are no goods/services assigned to t
 ```csharp
 ThatDoesNotShowAlertWithoutItems()
 ```
+
 Will not display anything if there are no goods/services assigned to the invoice. Instead, rendering will be skipped.
 
 ### `ConfigurePaymentTable()`
@@ -334,14 +354,17 @@ Configures the table with the list of payments.
 ```csharp
 WithHeader(string headerText)
 ```
+
 Specifies the text of the table header. Do not use it or set the header text to `string.Empty` to display no header.
 
 ---
+
 ```csharp
 WithHeaderColor(int r, int g, int b) // Overload
 WithHeaderColor(Color color) // Overload
 WithHeaderColor(string hexColor) // Overload
 ```
+
 Sets the color of the header text.
 
 ___
@@ -349,6 +372,7 @@ ___
 ```csharp
 WithFont(Font font)
 ```
+
 Overrides the global font for the given table.
 
 ___
@@ -356,6 +380,7 @@ ___
 ```csharp
 ThatShowsAlertWithoutItems(string header, string text)
 ```
+
 Shows an alert instead of a table when there are no payments made to fullfil the invoice.
 
 **OR**
@@ -363,6 +388,7 @@ Shows an alert instead of a table when there are no payments made to fullfil the
 ```csharp
 ThatDoesNotShowAlertWithoutItems()
 ```
+
 Will not display anything if there are no goods/services assigned to the invoice. Instead, rendering will be skipped.
 
 ### `ConfigureFooter()`
@@ -372,15 +398,17 @@ Configures the footer at the end of each page.
 ```csharp
 WithText(string text)
 ```
+
 Specifies the text of the footer. It can be something like a copyright notice or some information for the invoice receipient.
 
 ---
 
-```csharp 
+```csharp
 WithTextColor(int r, int g, int b) // Overload
 WithTextColor(Color color) // Overload
 WithTextColor(string hexColor) // Overload
 ```
+
 Sets the color of the footer text.
 
 ```csharp
@@ -388,13 +416,14 @@ WithFont(Font font)
 ```
 
 ### Finalizing the configuration
+
 Once you have fully configured your invoice PDF document to your desire, run the following method to build the configuration, at the end of the statement chain:
 
 ```csharp
 Build() // Creates an instance of the InvoiceConfiguration model
 ```
 
-### Example configuration:
+### Example configuration
 
 ```csharp
 InvoiceConfiguration configuration = InvoiceConfigurationFactory
@@ -437,23 +466,25 @@ IInvoiceRenderer renderer = new InvoiceRenderer();
 IDocument document = renderer.RenderInvoice(invoice, configuration);
 ```
 
-### Save the document on the disk as follows:
+### Save the document on the disk as follows
 
-* Generate PDF   
+* Generate PDF
+
 ```csharp
 document.GeneratePdf("C:/Users/Admin/Desktop/Invoice.pdf");
 ```
 
-* Generate XPS   
+* Generate XPS
+
 ```csharp
 document.GenerateXps("C:/users/delir/desktop/Invoice.xps");
  ```
- 
+
 # Contributing
 
 ## Found an issue?
 
-Please report any issues you have found by [creating a new issue](https://github.com/Codeh4ck/InvoiceSdk/issues). We will review the case and if it is indeed a problem with the code, I will try to fix it as soon as possible. I want to maintain a healthy and bug-free standard for our code. Additionally, if you have a solution ready for the issue please submit a pull request. 
+Please report any issues you have found by [creating a new issue](https://github.com/Codeh4ck/InvoiceSdk/issues). We will review the case and if it is indeed a problem with the code, I will try to fix it as soon as possible. I want to maintain a healthy and bug-free standard for our code. Additionally, if you have a solution ready for the issue please submit a pull request.
 
 ## Submitting pull requests
 
